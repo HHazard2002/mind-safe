@@ -1,13 +1,13 @@
 import "../index.css";
 import React, { useState, useEffect } from "react";
 import FirstInput from "../component/good/first_input";
-import FirstText from "../component/bad/first_text";
-import SecondText from "../component/good/second_text";
-import ThirdText from "../component/good/third_text";
 import SecondInput from "../component/good/second_input";
 import ChatButton from "../component/chat_button";
 import TextAI from "../component/text_ai";
 import TextUser from "../component/text_user";
+import ThirdInput from "../component/third_input";
+import FourthInput from "../component/fourth_input";
+import TextNeedHelp from "../component/text_need_help";
 
 function Template2() {
   const [isChatOpen, setIsChatOpen] = useState(false);
@@ -21,6 +21,20 @@ function Template2() {
     "From the choices below can you share with us what makes you feel low? Choose up to 3.",
     "Thanks for talking to me! Please share in under 8 words what makes you feel this way?",
     "Sorry you are feeling like this. Would you like me to help suggest ways that you could feel better?",
+  ];
+
+  const yesNeedHelp = [
+    "You recorded a lower response about your LOWEST TOPIC. Here are some suggestions to help you manage:",
+    "Is this helpful?",
+    "Thanks for talking to me. Remember to take a minute to complete your journal. See you next time!",
+  ];
+
+  const noNeedHelp = [
+    "Okay. Would you like to 'Talk' to your chosen adult? They can provide support and guidance. Or you can find some help on our 24/7 website or discover local groups and organisations on Discover-It.",
+    "It's great that you're reaching out to someone. Talking can really help. Try talking to your chosen adult. They can provide support and guidance.",
+    "It's great that you’re looking for things in your local community, this can really help. Use Discover-it to find lots of organisations and groups local to you.",
+    "It's great that you’re looking for things in your local community, this can really help. Use 24/7 Support, these are all excellent, safe places to get help.",
+    "That's okay! You can always find some help on our 24/7 website or discover local groups and organisations on Discover-It when you're ready.",
   ];
 
   const feelingBad = [
@@ -42,27 +56,16 @@ function Template2() {
     "Not feeling valued or useful",
   ];
 
-  const sentences = [
-    "Thanks for talking to me! Remember to take a minute to complete your journal. See you next time!",
-    "It’s great that you’re feeling like this. Use your Journal to remember what is making you feel good. Speak soon!",
-    "Thanks for sharing – it’s great to know what makes you feel positive about. Add it to your Journal and talk soon!",
-    "Remember, your feelings matter! Keep track of what makes you happy in your journal. Take care!",
-    "Thanks for chatting with me! Don't forget to reach out if you need support. You're not alone in this journey.",
-  ];
-
   function getRandomOptions(arr, num) {
     const shuffled = [...arr].sort(() => 0.5 - Math.random());
     return shuffled.slice(0, num);
   }
 
   const [bad, setBad] = useState([]);
-  const [lastMessage, setLastMessage] = useState([]);
 
   useEffect(() => {
     const randomOptions = getRandomOptions(feelingBad, 5);
     setBad(randomOptions);
-    const lastMessage = getRandomOptions(sentences, 1);
-    setLastMessage(lastMessage);
   }, []);
 
   const [selectedItems, setSelectedItems] = useState([]);
@@ -96,6 +99,9 @@ function Template2() {
     setSavedInput(inputValue);
   };
 
+  const [needHelp, setNeedHelp] = useState(null);
+  const [helpNeeded, setHelpNeeded] = useState(null);
+
   return (
     <div>
       <ChatButton isChatOpen={isChatOpen} toggleChat={toggleChat} />
@@ -126,6 +132,25 @@ function Template2() {
                 <TextAI text={text[3]} />
               </div>
             )}
+            {needHelp && (
+              <div>
+                <TextUser text={"Yes"} />
+                <TextAI text={yesNeedHelp[0]} />
+                <TextAI text={yesNeedHelp[1]} />
+              </div>
+            )}
+            {needHelp === false && (
+              <div>
+                <TextUser text={"No"} />
+                <TextAI text={noNeedHelp[0]} />
+              </div>
+            )}
+            {helpNeeded && (
+              <div>
+                <TextUser text={helpNeeded} />
+                <TextNeedHelp help={helpNeeded} />
+              </div>
+            )}
           </div>
 
           {submittedItems.length === 0 && (
@@ -142,6 +167,12 @@ function Template2() {
               handleInputChange={handleInputChange}
               inputValue={inputValue}
             />
+          )}
+          {savedInput.length > 0 && needHelp === null && (
+            <ThirdInput setNeedHelp={setNeedHelp} />
+          )}
+          {needHelp === false && helpNeeded === null && (
+            <FourthInput setHelpNeeded={setHelpNeeded} />
           )}
         </div>
       )}

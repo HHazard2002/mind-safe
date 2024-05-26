@@ -1,4 +1,4 @@
-function FirstInput({ good, handleSelect, handleSubmit, selectedItems }) {
+function FirstInput({ options, handleSelect, handleSubmit, selectedItems }) {
   return (
     <div>
       <div className="flex items-center -mt-28">
@@ -10,7 +10,7 @@ function FirstInput({ good, handleSelect, handleSubmit, selectedItems }) {
           className="flex items-end justify-end w-full space-x-2"
         >
           <div className="flex flex-wrap">
-            {good.map((item, index) => (
+            {options.map((item, index) => (
               <span
                 key={index}
                 onClick={() => handleSelect(item)}

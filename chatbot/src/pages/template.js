@@ -16,7 +16,6 @@ function Template() {
 
   const feelingGood = [
     "Planning things with friends",
-    "Planning things with friends",
     "Having people to be with at break times",
     "Doing things out of school",
     "Feeling I belong to a group",
@@ -102,7 +101,7 @@ function Template() {
 
           <div
             className=" pr-4 h-[474px] overflow-y-auto"
-            style={{ minWidth: "100%", display: "table" }}
+            style={{ minWidth: "100%" }}
           >
             <FirstText />
             {submittedItems.length > 0 && (

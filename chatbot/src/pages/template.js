@@ -52,8 +52,8 @@ function Template() {
   useEffect(() => {
     const randomOptions = getRandomOptions(feelingGood, 5);
     setGood(randomOptions);
-    const lastMessage = getRandomOptions(sentences, 1);
-    setLastMessage(lastMessage);
+    const randomLastMessage = getRandomOptions(sentences, 1);
+    setLastMessage(randomLastMessage);
   }, []);
 
   const [selectedItems, setSelectedItems] = useState([]);
@@ -93,14 +93,14 @@ function Template() {
       {isChatOpen && (
         <div className="fixed bottom-[calc(4rem+1.5rem)] right-0 mr-4 bg-white p-6 rounded-lg border border-[#e5e7eb] w-[440px] h-[634px] overflow-hidden">
           <div className="flex flex-col space-y-1.5 pb-6">
-            <h2 className="font-semibold text-lg ">Chatbot</h2>
+            <h2 className="font-semibold text-lg">Chatbot</h2>
             <p className="text-sm text-black leading-3">
               I am Saffy, the MindSafe Bot
             </p>
           </div>
 
           <div
-            className=" pr-4 h-[474px] overflow-y-auto"
+            className="pr-4 h-[474px] overflow-y-auto"
             style={{ minWidth: "100%" }}
           >
             <FirstText />
@@ -114,7 +114,7 @@ function Template() {
 
           {submittedItems.length === 0 && (
             <FirstInput
-              good={good}
+              options={good}
               handleSelect={handleSelect}
               handleSubmit={handleSubmit}
               selectedItems={selectedItems}

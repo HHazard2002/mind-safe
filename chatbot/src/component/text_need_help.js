@@ -1,7 +1,7 @@
 function TextNeedHelp({ help }) {
   const options = {
     Talk: {
-      text: "Chatbot: It's great that you're reaching out to someone. Talking can really help. Try talking to your chosen adult. They can provide support and guidance.",
+      text: "It's great that you're reaching out to someone. Talking can really help. Try talking to your chosen adult. They can provide support and guidance.",
       link: "https://mind-safe.com/MoodDiary",
     },
     Discover: {

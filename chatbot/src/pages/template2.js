@@ -1,5 +1,5 @@
 import "../index.css";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import FirstInput from "../component/good/first_input";
 import SecondInput from "../component/good/second_input";
 import ChatButton from "../component/chat_button";
@@ -102,6 +102,14 @@ function Template2() {
   const [needHelp, setNeedHelp] = useState(null);
   const [helpNeeded, setHelpNeeded] = useState(null);
 
+  const scrollableDivRef = useRef(null);
+
+  useEffect(() => {
+    if (scrollableDivRef.current) {
+      scrollableDivRef.current.scrollTop =
+        scrollableDivRef.current.scrollHeight;
+    }
+  }, [text, submittedItems, savedInput, needHelp, helpNeeded]);
   return (
     <div>
       <ChatButton isChatOpen={isChatOpen} toggleChat={toggleChat} />
@@ -117,6 +125,7 @@ function Template2() {
           <div
             className=" pr-4 h-[474px] overflow-y-auto"
             style={{ minWidth: "100%" }}
+            ref={scrollableDivRef}
           >
             <TextAI text={text[0]} />
             <TextAI text={text[1]} />

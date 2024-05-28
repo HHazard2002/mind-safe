@@ -16,8 +16,8 @@ function FirstInput({ options, handleSelect, handleSubmit, selectedItems }) {
                 onClick={() => handleSelect(item)}
                 className={`cursor-pointer ml-2 rounded-md px-2 mt-1 p-1 text-sm md:text-md font-medium ${
                   selectedItems.includes(item)
-                    ? "bg-purple-300 text-purple-700"
-                    : "bg-purple-100 text-purple-700"
+                    ? "bg-blue-300 text-blue-700"
+                    : "bg-blue-100 text-blue-700"
                 }`}
               >
                 {item}

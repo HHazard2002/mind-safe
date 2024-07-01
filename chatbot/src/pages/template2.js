@@ -14,7 +14,9 @@ function Template2() {
   const [selectedItems, setSelectedItems] = useState([]);
   const [submittedItems, setSubmittedItems] = useState([]);
   const [inputValue, setInputValue] = useState("");
+  const [inputValue2, setInputValue2] = useState("");
   const [savedInput, setSavedInput] = useState("");
+  const [savedInput2, setSavedInput2] = useState("");
   const [needHelp, setNeedHelp] = useState(null);
   const [helpNeeded, setHelpNeeded] = useState(null);
   const [bad, setBad] = useState([]);
@@ -25,9 +27,10 @@ function Template2() {
 
   const text = [
     "I noticed that you reported in your Mood Diary that you are feeling low. It's great that you're sharing and thinking about how you feel. It's normal to feel this way sometimes.",
-    "From the choices below can you share with us what makes you feel low? Choose up to 3.",
+    "From the choices below can you share with us what makes you feel low? Choose 1 option.",
     "Thanks for talking to me! Please share in under 8 words what makes you feel this way?",
     "Sorry you are feeling like this. Would you like me to help suggest ways that you could feel better?",
+    "Thank you for your feedback!",
   ];
 
   const yesNeedHelp = [
@@ -164,8 +167,21 @@ function Template2() {
     }
   };
 
+  const handleInputChange2 = (e) => {
+    const words = e.target.value.split(" ");
+    if (words.length <= 8) {
+      setInputValue2(e.target.value);
+    } else {
+      setInputValue2(words.slice(0, 8).join(" "));
+    }
+  };
+
   const handleSubmit2 = () => {
     setSavedInput(inputValue);
+  };
+
+  const handleSubmit3 = () => {
+    setSavedInput2(inputValue2);
   };
 
   const scrollableDivRef = useRef(null);
@@ -262,6 +278,12 @@ function Template2() {
                 <TextNeedHelp help={helpNeeded} />
               </div>
             )}
+            {savedInput2 && (
+              <div>
+                <TextUser text={savedInput2} />
+                <TextAI text={text[4]} />
+              </div>
+            )}
           </div>
 
           {submittedItems.length === 0 && (
@@ -284,6 +306,13 @@ function Template2() {
           )}
           {needHelp === false && helpNeeded === null && (
             <FourthInput setHelpNeeded={setHelpNeeded} />
+          )}
+          {needHelp === true && helpNeeded === null && (
+            <SecondInput
+              handleSubmit2={handleSubmit3}
+              handleInputChange={handleInputChange2}
+              inputValue={inputValue2}
+            />
           )}
         </div>
       )}

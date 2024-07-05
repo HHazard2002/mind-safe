@@ -8,6 +8,7 @@ import TextUser from "../component/text_user";
 import ThirdInput from "../component/third_input";
 import FourthInput from "../component/fourth_input";
 import TextNeedHelp from "../component/text_need_help";
+import FifthInput from "../component/fifth_input";
 
 function Template2() {
   const [isChatOpen, setIsChatOpen] = useState(false);
@@ -20,6 +21,7 @@ function Template2() {
   const [needHelp, setNeedHelp] = useState(null);
   const [helpNeeded, setHelpNeeded] = useState(null);
   const [bad, setBad] = useState([]);
+  const [isUsefull, setIsUsefull] = useState(null);
 
   const toggleChat = () => {
     setIsChatOpen(!isChatOpen);
@@ -30,7 +32,8 @@ function Template2() {
     "From the choices below can you share with us what makes you feel low? Choose 1 option.",
     "Thanks for talking to me! Please share in under 8 words what makes you feel this way?",
     "Sorry you are feeling like this. Would you like me to help suggest ways that you could feel better?",
-    "Thank you for your feedback!",
+    "I am glad to hear this helped. Thank you for your feedback!",
+    "I am sorry to hear this did not help. Talking with somebody is usually a good way to feel better. Here are a few contact details!",
   ];
 
   const yesNeedHelp = [
@@ -136,6 +139,18 @@ function Template2() {
     },
   ];
 
+  const ressources5 = [
+    { text: "Talk to a teacher", url: "https://mind-safe.com/MoodDiary" },
+    {
+      text: "Contact Samaritans",
+      url: "https://www.samaritans.org/how-we-can-help/contact-samaritan/",
+    },
+    {
+      text: "MindSafes 24/7 help page",
+      url: "https://mind-safe.com/UrgentHelp",
+    },
+  ];
+
   function getRandomOptions(arr, num) {
     const shuffled = [...arr].sort(() => 0.5 - Math.random());
     return shuffled.slice(0, num);
@@ -195,6 +210,7 @@ function Template2() {
 
   const renderResources = () => {
     let resources = [];
+
     if (submittedItems.includes("Feeling anxious or worried")) {
       resources = ressources1;
     } else if (submittedItems.includes("Being bullied")) {
@@ -209,6 +225,25 @@ function Template2() {
     ) {
       resources = ressources4;
     }
+    return (
+      <div>
+        {resources.map((resource, index) => (
+          <a
+            key={index}
+            href={resource.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="block mt-2 text-blue-500"
+          >
+            {resource.text}
+          </a>
+        ))}
+      </div>
+    );
+  };
+
+  const renderResources2 = () => {
+    let resources = ressources5;
 
     return (
       <div>
@@ -278,10 +313,17 @@ function Template2() {
                 <TextNeedHelp help={helpNeeded} />
               </div>
             )}
-            {savedInput2 && (
+            {isUsefull === true && (
               <div>
-                <TextUser text={savedInput2} />
+                <TextUser text={"Yes"} />
                 <TextAI text={text[4]} />
+              </div>
+            )}
+            {isUsefull === false && (
+              <div>
+                <TextUser text={"No"} />
+                <TextAI text={text[5]} />
+                {renderResources2()}
               </div>
             )}
           </div>
@@ -307,12 +349,8 @@ function Template2() {
           {needHelp === false && helpNeeded === null && (
             <FourthInput setHelpNeeded={setHelpNeeded} />
           )}
-          {needHelp === true && helpNeeded === null && (
-            <SecondInput
-              handleSubmit2={handleSubmit3}
-              handleInputChange={handleInputChange2}
-              inputValue={inputValue2}
-            />
+          {needHelp === true && isUsefull === null && (
+            <FifthInput setIsUsefull={setIsUsefull} />
           )}
         </div>
       )}
